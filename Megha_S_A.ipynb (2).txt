@@ -1,0 +1,193 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Megha. S. A",
+      "provenance": [],
+      "collapsed_sections": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "LUkF-dLXv0eo"
+      },
+      "source": [
+        "(X_train, Y_train), (X_test, Y_test) = mnist.load_data()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "hd25sHtAkRIH"
+      },
+      "source": [
+        "## importing dataset\n",
+        "from keras.datasets import mnist\n",
+        " \n",
+        "data= mnist.load_data()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "EGnUbegVBmJR"
+      },
+      "source": [
+        "#shape of Training Data\n",
+        "X_train[0].shape"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "1MpyNfTSCTSG"
+      },
+      "source": [
+        "# Reshape the Training data\n",
+        "X_train = X_train.reshape((X_train.shape[0], 28*28)).astype('float32')\n",
+        "X_test = X_test.reshape((X_test.shape[0], 28*28)).astype('float32')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "jS8xchjQE4wZ"
+      },
+      "source": [
+        "# Normalising values from 0-255 to 0-1 \n",
+        "X_train = X_train / 255\n",
+        "X_test = X_test / 255"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "LGXjzL8hKoqw"
+      },
+      "source": [
+        " \n",
+        "from keras.utils import np_utils\n",
+        " \n",
+        "print(Y_test.shape[1]) \n",
+        " \n",
+        "Y_train = np_utils.to_categorical(Y_train)\n",
+        "Y_test = np_utils.to_categorical(Y_test)\n",
+        " \n",
+        "num_classes = Y_test.shape[1]\n",
+        "print(num_classes)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2RX8akHaLzJc"
+      },
+      "source": [
+        "from keras.models import Sequential \n",
+        "from keras.layers import Dense\n",
+        "from keras.layers import Dropout"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "xVwHrqJlTBB8"
+      },
+      "source": [
+        "# Define Model\n",
+        "model=Sequential()\n",
+        " \n",
+        "#Add First Hidden Layer\n",
+        "model.add(Dense(32,input_dim=28*28, activation='relu')) \n",
+        " \n",
+        "#Add Second Hidden Layer\n",
+        "model. add(Dense(64,activation='relu'))"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "0mpKuNBvWiXV"
+      },
+      "source": [
+        "# compile model\n",
+        "model.compile(loss='categorical_crossentropy',optimizer='adam',metrics =['accuracy'])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "iS3vbEyRX4Hv"
+      },
+      "source": [
+        "#print model summary\n",
+        "model. summary()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "cqaUWZlsYHGv"
+      },
+      "source": [
+        "# Train model\n",
+        "model.fit(X_train,Y_train,validation_split=0.2,epochs=10,batch_size=100)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "O9GtN1cZaWsk"
+      },
+      "source": [
+        "scores =  model.evaluate(X_test,Y_test)\n",
+        "print(scores)  ##  returns loss and accuracy"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "wgvIwbApctNN"
+      },
+      "source": [
+        "Predictions=model. predict(X_test)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
